@@ -1,4 +1,4 @@
-package org.smortsogest.exception;
+package org.smortsogest.exception.auth;
 
 public class DuplicateEmailException extends RuntimeException {
     public DuplicateEmailException(String message) {

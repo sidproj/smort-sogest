@@ -1,6 +1,8 @@
 package org.smortsogest.controller;
 
-import org.smortsogest.dto.RegisterRequest;
+import org.smortsogest.dto.auth.AuthResponse;
+import org.smortsogest.dto.auth.LoginRequest;
+import org.smortsogest.dto.auth.RegisterRequest;
 import org.smortsogest.dto.UserDTO;
 import org.smortsogest.service.AuthServiceImpl;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +22,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserDTO registerUser(@Validated @RequestBody RegisterRequest registerRequest){
+    public AuthResponse registerUser(@Validated @RequestBody RegisterRequest registerRequest){
         return userServiceImpl.registerUser(registerRequest);
+    }
+
+    @PostMapping("/login")
+    public AuthResponse loginUser(@Validated @RequestBody LoginRequest loginRequest){
+        return userServiceImpl.loginUser(loginRequest);
     }
 }

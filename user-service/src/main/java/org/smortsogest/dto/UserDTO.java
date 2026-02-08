@@ -1,9 +1,9 @@
 package org.smortsogest.dto;
 
 public class UserDTO {
-    public Long id;
-    public String name;
-    public String email;
+    private Long id;
+    private String name;
+    private String email;
 
     public Long getId() {
         return id;

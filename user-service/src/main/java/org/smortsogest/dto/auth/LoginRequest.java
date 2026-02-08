@@ -1,8 +1,12 @@
-package org.smortsogest.dto;
+package org.smortsogest.dto.auth;
+
+import jakarta.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    String email;
-    String password;
+    @NotBlank(message = "email is required for login")
+    private String email;
+    @NotBlank(message = "password is required for login")
+    private String password;
 
     public String getEmail() {
         return email;

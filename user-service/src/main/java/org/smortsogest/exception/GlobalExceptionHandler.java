@@ -1,7 +1,7 @@
 package org.smortsogest.exception;
 
-import org.jspecify.annotations.NonNull;
 import org.smortsogest.dto.ResponseError;
+import org.smortsogest.exception.auth.DuplicateEmailException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<@NonNull ResponseError> handleDuplicateEmailException(DuplicateEmailException ex){
+    public ResponseEntity<ResponseError> handleDuplicateEmailException(DuplicateEmailException ex){
         ResponseError responseError = new ResponseError();
         responseError.setError("Duplicate email found!");
         return ResponseEntity.badRequest().body(responseError);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<@NonNull ResponseError> handleInvalidRequest(MethodArgumentNotValidException ex){
+    public ResponseEntity<ResponseError> handleInvalidRequest(MethodArgumentNotValidException ex){
         String message = ex.getBindingResult().
                 getFieldErrors().
                 get(0).
@@ -26,5 +26,12 @@ public class GlobalExceptionHandler {
         ResponseError responseError = new ResponseError();
         responseError.setError(message);
         return ResponseEntity.badRequest().body(responseError);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ResponseError> handleUserNotFound(UserNotFoundException ex){
+        ResponseError error = new ResponseError();
+        error.setError(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(error);
     }
 }
