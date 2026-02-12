@@ -51,7 +51,6 @@ public class AuthServiceImpl implements AuthService {
             String token = jwtUtil.generateToken(savedUser.getId().toString(), Map.of("email",savedUser.getEmail()));
 
             AuthResponse authResponse = new AuthResponse();
-
             authResponse.setAccessToken(token);
             authResponse.setTokenType("Bearer");
             authResponse.setExpiresIn(jwtUtil.getExpirationInSeconds());
@@ -65,7 +64,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse loginUser(LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(UserNotFoundException::new);
 
         if(!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())){
             throw new PasswordDoNotMatchException();
